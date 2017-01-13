@@ -11,7 +11,7 @@ dependencies:
 test:
   override:
     - ./ci/build.sh
-    - ./ci/test.sh
+    # - ./ci/test.sh
 
 deployment:
   release:
