@@ -8,9 +8,6 @@ if [[ "$CIRCLE_BRANCH" != "master" ]]; then
   exit 0
 fi
 
-# install reaction-cli
-npm install -g reaction-cli
-
 # get the development branch of Reaction
 reaction init -b development
 cd reaction

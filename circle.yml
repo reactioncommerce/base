@@ -6,7 +6,7 @@ machine:
 
 dependencies:
   override:
-    - echo "No deps!"
+    - npm i -g reaction-cli
 
 test:
   override:
