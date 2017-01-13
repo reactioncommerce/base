@@ -1,0 +1,7 @@
+.git
+build.sh
+ci
+circle.yml
+Dockerfile
+*.dockerfile
+*.md
