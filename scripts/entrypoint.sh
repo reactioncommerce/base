@@ -5,11 +5,6 @@ set -e
 # try to start local MongoDB if no external MONGO_URL was set
 if [[ "${MONGO_URL}" == *"127.0.0.1"* ]]; then
   if hash mongod 2>/dev/null; then
-    numa="numactl --interleave=all"
-  	if $numa true &> /dev/null; then
-  		set -- $numa "mongod --storageEngine=wiredTiger"
-  	fi
-
     printf "\n[-] External MONGO_URL not found. Starting local MongoDB...\n\n"
     exec gosu mongodb mongod --storageEngine=wiredTiger &
   else

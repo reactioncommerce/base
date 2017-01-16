@@ -13,7 +13,6 @@ apt-get install -y --no-install-recommends \
   git \
   graphicsmagick \
   graphicsmagick-imagemagick-compat \
-  numactl \
   python \
   wget
 
