@@ -13,4 +13,5 @@ rm ${NODE_DIST}.tar.gz
 rm -rf /opt/nodejs
 mv ${NODE_DIST} /opt/nodejs
 
-export PATH="$PATH:/opt/nodejs/bin"
+ln -sf /opt/nodejs/bin/node /usr/local/bin/node
+ln -sf /opt/nodejs/bin/npm /usr/local/bin/npm

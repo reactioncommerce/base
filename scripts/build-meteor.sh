@@ -12,8 +12,9 @@ export METEOR_ALLOW_SUPERUSER=true
 
 cd $APP_SOURCE_DIR
 
-# get reaction-cli
+# install reaction-cli
 npm i -g reaction-cli
+ln -sf /opt/nodejs/bin/reaction /usr/local/bin/reaction
 
 # Generate plugin import files
 printf "\n[-] Running Reaction plugin loader...\n\n"
