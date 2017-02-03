@@ -15,10 +15,6 @@ rm -rf /var/lib/{cache,log}
 # remove app source
 rm -rf $APP_SOURCE_DIR
 
-# remove meteor
-rm -rf /usr/local/bin/meteor
-rm -rf /root/.meteor
-
 # clean additional files created outside the source tree
 rm -rf /root/{.npm,.cache,.config,.cordova,.local}
 rm -rf /tmp/*

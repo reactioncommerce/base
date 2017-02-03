@@ -3,7 +3,7 @@ MAINTAINER Reaction Commerce <admin@reactioncommerce.com>
 
 RUN groupadd -r node && useradd -m -g node node
 
-ENV NODE_VERSION 4.7.2
+ENV NODE_VERSION 4.7.3
 ENV GOSU_VERSION 1.10
 
 # Optionally Install MongoDB
@@ -29,6 +29,7 @@ RUN bash $BUILD_SCRIPTS_DIR/install-deps.sh && \
     bash $BUILD_SCRIPTS_DIR/install-node.sh && \
     bash $BUILD_SCRIPTS_DIR/install-mongo.sh && \
     bash $BUILD_SCRIPTS_DIR/install-phantom.sh && \
+    bash $BUILD_SCRIPTS_DIR/install-meteor.sh && \
     bash $BUILD_SCRIPTS_DIR/post-install-cleanup.sh
 
 # Default values for Meteor environment variables
