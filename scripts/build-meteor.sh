@@ -10,7 +10,10 @@ set -e
 # https://github.com/meteor/meteor/issues/7959
 export METEOR_ALLOW_SUPERUSER=true
 
-cd $APP_SOURCE_DIR
+# CoreOS sometimes has some strange build issues that are fixed by copying the source dir
+printf "\n[-] Moving the source folder...\n\n"
+cp -R $APP_SOURCE_DIR /opt/copy
+cd /opt/copy
 
 # install reaction-cli
 npm i -g reaction-cli
@@ -39,3 +42,5 @@ mv $BUILD_SCRIPTS_DIR/entrypoint.sh $APP_BUNDLE_DIR/bundle/entrypoint.sh
 
 # change ownership of the app to the node user
 chown -R node:node $APP_BUNDLE_DIR
+
+rm -rf /opt/copy
