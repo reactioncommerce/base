@@ -9,7 +9,7 @@ ENV GOSU_VERSION 1.10
 
 # Optionally Install MongoDB
 ENV INSTALL_MONGO true
-ENV MONGO_VERSION 3.4.1
+ENV MONGO_VERSION 3.4.2
 ENV MONGO_MAJOR 3.4
 
 # Optionally Install PhantomJS
