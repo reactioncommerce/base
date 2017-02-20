@@ -3,6 +3,7 @@ MAINTAINER Reaction Commerce <admin@reactioncommerce.com>
 
 RUN groupadd -r node && useradd -m -g node node
 
+ENV METEOR_VERSION 1.4.2.7
 ENV NODE_VERSION 4.7.3
 ENV GOSU_VERSION 1.10
 
