@@ -2,7 +2,7 @@ machine:
   services:
     - docker
   node:
-    version: 7.4.0
+    version: 7.9.0
 
 dependencies:
   override:
