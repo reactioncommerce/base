@@ -3,13 +3,13 @@ MAINTAINER Reaction Commerce <admin@reactioncommerce.com>
 
 RUN groupadd -r node && useradd -m -g node node
 
-ENV METEOR_VERSION 1.4.4.1
-ENV NODE_VERSION 4.8.1
+ENV METEOR_VERSION 1.4.4.2
+ENV NODE_VERSION 4.8.2
 ENV GOSU_VERSION 1.10
 
 # Optionally Install MongoDB
 ENV INSTALL_MONGO true
-ENV MONGO_VERSION 3.4.3
+ENV MONGO_VERSION 3.4.4
 ENV MONGO_MAJOR 3.4
 
 # Optionally Install PhantomJS
