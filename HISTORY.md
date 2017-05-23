@@ -1,3 +1,38 @@
+## v1.4.0
+
+- allow setting `TOOL_NODE_FLAGS` for the Meteor at image build time
+
+Example usage:  
+
+```
+docker build --build-arg TOOL_NODE_FLAGS="--max-old-space-size=2048" -t reactioncommerce/reaction:latest .
+```
+
+
+## v1.3.1
+
+- Meteor 1.4.4.2
+- Node 4.8.2
+- Mongo 3.4.4
+
+
+## v1.3.0
+
+- Meteor 1.4.4.1
+- Node 4.8.1
+- Mongo 3.4.3
+
+
+## v1.2.2
+
+- Meteor 1.4.3.2
+
+
+## v1.2.1
+
+- Don't silence Meteor build logs
+
+
 ## v1.2.0
 
 - Meteor still preinstalled, but we now set the version (currently `1.4.2.7` and can be changed via `$METEOR_VERSION` env var)
