@@ -17,7 +17,7 @@ docker build -f prod.dockerfile -t $IMAGE_NAME:$CIRCLE_TAG .
 docker tag $IMAGE_NAME:lean $IMAGE_NAME:$CIRCLE_TAG-lean
 
 # login to Docker Hub
-docker login -u $DOCKER_USER -p $DOCKER_PASS
+docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 
 # push the versioned builds
 docker push $IMAGE_NAME:base-$CIRCLE_TAG
