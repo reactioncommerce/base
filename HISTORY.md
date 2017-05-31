@@ -1,3 +1,12 @@
+## v1.5.0
+
+- Create a new "lean" build that caches the absolute least amount of app/build dependencies. This brought our final images down from over 2.2GB to under 400MB. CircleCI will now creates these two new builds/tags:
+  - `reactioncommerce/base:lean` (equal to "latest" for the lean build)
+  - `reactioncommerce/base:v1.2.3-lean` (same image, but version tagged)
+- Add build arg options for Mongo, Phantom, and apt-get (see README)
+- Switch to unzipping Meteor with bsdtar (fixes [issue when building on some OS's](https://github.com/jshimko/meteor-launchpad/issues/39))
+- update Meteor to 1.5
+
 ## v1.4.0
 
 - allow setting `TOOL_NODE_FLAGS` for the Meteor at image build time
