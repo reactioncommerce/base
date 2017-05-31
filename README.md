@@ -45,6 +45,23 @@ docker run -d \
   reactioncommerce/reaction:latest
 ```
 
+### Build Options
+
+This base image supports setting custom build options that let you modify what gets installed.  You can use [Docker build args](https://docs.docker.com/engine/reference/builder/#arg) to accomplish this.  The currently supported options are to install PhantomJS, MongoDB, or any list of `apt-get` dependencies (this image is built on `debian:jesse`).  
+
+If you choose to install Mongo, you can use it by _not_ supplying a `MONGO_URL` when you run your app container.  The startup script will start Mongo inside the container and tell your app to use it.  If you _do_ supply a `MONGO_URL`, Mongo will not be started inside the container and the external database will be used instead. (Note that having Mongo in the same container as your app is just for convenience while testing/developing.  In production, you should always use a separate Mongo deployment or at least a separate Mongo container).
+
+When you build your image, you can set any of the following values:
+
+```sh
+docker build \
+  --build-arg APT_GET_INSTALL="curl git wget" \
+  --build-arg INSTALL_MONGO=true \
+  --build-arg INSTALL_PHANTOMJS=true \
+  --build-arg NODE_VERSION=4.8.3 \
+  -t myorg/myapp:latest .
+```
+
 ## Development Builds
 
 You can optionally avoid downloading Meteor every time when building regularly in development.  Add the following to your Dockerfile instead...
