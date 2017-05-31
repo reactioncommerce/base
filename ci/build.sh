@@ -19,3 +19,7 @@ sed -i.bak "s/:base/:base-$CIRCLE_TAG/" prod.dockerfile
 # create the versioned builds
 docker build -f dev.dockerfile -t $IMAGE_NAME:devbuild-$CIRCLE_TAG .
 docker build -f prod.dockerfile -t $IMAGE_NAME:$CIRCLE_TAG .
+
+# create the lean build
+docker build -f lean.dockerfile -t $IMAGE_NAME:lean .
+docker tag $IMAGE_NAME:lean $IMAGE_NAME:$CIRCLE_TAG-lean
