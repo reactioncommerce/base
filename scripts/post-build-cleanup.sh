@@ -15,6 +15,10 @@ rm -rf /var/lib/{cache,log}
 # remove app source
 rm -rf $APP_SOURCE_DIR
 
+# remove meteor
+rm -rf /usr/local/bin/meteor
+rm -rf /root/.meteor
+
 # clean additional files created outside the source tree
 rm -rf /root/{.npm,.cache,.config,.cordova,.local}
 rm -rf /tmp/*
@@ -28,6 +32,7 @@ rm /usr/local/bin/npm
 rm -rf /opt/nodejs/lib/node_modules/npm/
 
 # remove os dependencies
+apt-get purge -y --auto-remove build-essential bsdtar bzip2 curl git python
 apt-get -y autoremove
 apt-get -y clean
 apt-get -y autoclean
