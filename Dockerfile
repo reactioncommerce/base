@@ -24,9 +24,6 @@ RUN chmod -R 770 $BUILD_SCRIPTS_DIR
 
 # install base dependencies and clean up
 RUN bash $BUILD_SCRIPTS_DIR/install-deps.sh && \
-    bash $BUILD_SCRIPTS_DIR/install-node.sh && \
-    bash $BUILD_SCRIPTS_DIR/install-mongo.sh && \
-    bash $BUILD_SCRIPTS_DIR/install-phantom.sh && \
     bash $BUILD_SCRIPTS_DIR/install-meteor.sh && \
     bash $BUILD_SCRIPTS_DIR/post-install-cleanup.sh
 

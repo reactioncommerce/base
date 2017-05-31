@@ -23,5 +23,8 @@ ONBUILD COPY . $APP_SOURCE_DIR
 
 # build app, clean up
 ONBUILD RUN cd $APP_SOURCE_DIR && \
-            bash $BUILD_SCRIPTS_DIR/build-meteor.sh && \
-            bash $BUILD_SCRIPTS_DIR/post-build-cleanup.sh
+            $BUILD_SCRIPTS_DIR/install-node.sh && \
+            $BUILD_SCRIPTS_DIR/install-mongo.sh && \
+            $BUILD_SCRIPTS_DIR/install-phantom.sh && \
+            $BUILD_SCRIPTS_DIR/build-meteor.sh && \
+            $BUILD_SCRIPTS_DIR/post-build-cleanup.sh
