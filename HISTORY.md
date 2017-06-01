@@ -1,3 +1,15 @@
+## v2.0.0
+
+- CircleCI 2.0 for automated build/publish
+- This update removes the partial base Dockerfile and switches to two primary builds - the original `devbuild` with everything installed, and the "lean" build with the bare minimum dependencies. Both builds support using `--build-arg`'s to customize what does/doesn't get installed (Mongo, Phantom, etc). The major (potentially breaking) change here is the `:latest` tag no longer has Mongo/Phantom installed by default, but you can easily restore that scenario by running your Reaction build with the following flags:
+
+```sh
+docker build \
+  --build-arg INSTALL_MONGO=true \
+  --build-arg INSTALL_PHANTOMJS=true \
+  -t myorg/reaction:latest .
+```
+
 ## v1.5.0
 
 - Create a new "lean" build that caches the absolute least amount of app/build dependencies. This brought our final images down from over 2.2GB to under 400MB. CircleCI will now creates these two new builds/tags:
