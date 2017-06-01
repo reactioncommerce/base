@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 ## Required environment variables in your CircleCI dashboard
 # (used to push to Docker Hub)
 #
@@ -15,6 +13,8 @@ if [[ "$CIRCLE_BRANCH" == "master" ]]; then
   VERSION=$(git describe --tags | grep "^v[0-9]\+\.[0-9]\+\.[0-9]\+$")
 
   if [[ "$VERSION" ]]; then
+    set -e
+
     IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
 
     # create a versioned tags
