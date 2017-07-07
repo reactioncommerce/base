@@ -15,6 +15,10 @@ ENV MONGO_MAJOR 3.4
 # Optionally Install PhantomJS
 ENV PHANTOM_VERSION 2.1.1
 
+# provide a way to detect if we're inside
+# an official Reaction Docker build
+ENV REACTION_DOCKER_BUILD true
+
 # build directories
 ENV APP_SOURCE_DIR /opt/reaction/src
 ENV APP_BUNDLE_DIR /opt/reaction/dist
