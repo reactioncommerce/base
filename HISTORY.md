@@ -1,3 +1,8 @@
+## v2.0.1
+
+- add `REACTION_DOCKER_BUILD` variable to detect when you're inside an official Reaction Docker build
+- update Node and Docker versions on CircleCI
+
 ## v2.0.0
 
 - CircleCI 2.0 for automated build/publish
