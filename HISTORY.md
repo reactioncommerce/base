@@ -1,3 +1,7 @@
+## v2.0.2
+
+- downgrade CI Docker to latest available version in their repo
+
 ## v2.0.1
 
 - add `REACTION_DOCKER_BUILD` variable to detect when you're inside an official Reaction Docker build
