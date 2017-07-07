@@ -2,10 +2,12 @@
 
 - downgrade CI Docker to latest available version in their repo
 
+
 ## v2.0.1
 
 - add `REACTION_DOCKER_BUILD` variable to detect when you're inside an official Reaction Docker build
 - update Node and Docker versions on CircleCI
+
 
 ## v2.0.0
 
@@ -19,6 +21,7 @@ docker build \
   -t myorg/reaction:latest .
 ```
 
+
 ## v1.5.0
 
 - Create a new "lean" build that caches the absolute least amount of app/build dependencies. This brought our final images down from over 2.2GB to under 400MB. CircleCI will now creates these two new builds/tags:
@@ -27,6 +30,7 @@ docker build \
 - Add build arg options for Mongo, Phantom, and apt-get (see README)
 - Switch to unzipping Meteor with bsdtar (fixes [issue when building on some OS's](https://github.com/jshimko/meteor-launchpad/issues/39))
 - update Meteor to 1.5
+
 
 ## v1.4.0
 
