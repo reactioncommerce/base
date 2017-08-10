@@ -1,3 +1,8 @@
+## v2.1.3
+
+- remove deprecated docker login `-e` flag
+
+
 ## v2.1.2
 
 - add git to the build image
