@@ -12,7 +12,7 @@ jobs:
       - checkout
 
       # install OS dependencies
-      - run: apk update && apk upgrade && apk add --no-cache bash
+      - run: apk update && apk upgrade && apk add --no-cache bash git openssh
 
       # run build
       - run: .circleci/build.sh
