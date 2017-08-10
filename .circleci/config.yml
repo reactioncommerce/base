@@ -5,19 +5,13 @@ jobs:
     working_directory: /home/reaction
 
     docker:
-      - image: node:8
-
-    environment:
-      - DOCKER_VERSION: 17.06.0-ce
+      - image: docker:latest
 
     steps:
       - setup_remote_docker
       - checkout
 
-      # install OS dependencies
-      - run: .circleci/install.sh
-
-      # run build test
+      # run build
       - run: .circleci/build.sh
 
       # deploy the build (if on a deployment branch)
