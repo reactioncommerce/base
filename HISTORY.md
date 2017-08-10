@@ -1,3 +1,10 @@
+## v2.1.0
+
+- Node 4.8.4
+- Mongo 3.4.7
+- Docker 17.06.0-ce on CircleCI
+
+
 ## v2.0.2
 
 - downgrade CI Docker to latest available version in their repo
