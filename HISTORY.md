@@ -1,3 +1,8 @@
+## v2.1.2
+
+- add git to the build image
+
+
 ## v2.1.1
 
 - CircleCI fail
