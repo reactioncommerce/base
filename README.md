@@ -58,7 +58,7 @@ docker build \
   --build-arg APT_GET_INSTALL="curl git wget" \
   --build-arg INSTALL_MONGO=true \
   --build-arg INSTALL_PHANTOMJS=true \
-  --build-arg NODE_VERSION=4.8.3 \
+  --build-arg NODE_VERSION=4.8.4 \
   -t myorg/myapp:latest .
 ```
 
