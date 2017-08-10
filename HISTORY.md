@@ -1,3 +1,8 @@
+## v2.1.1
+
+- CircleCI fail
+
+
 ## v2.1.0
 
 - Node 4.8.4
