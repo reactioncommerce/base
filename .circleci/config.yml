@@ -11,6 +11,9 @@ jobs:
       - setup_remote_docker
       - checkout
 
+      # install OS dependencies
+      - run: apk update && apk upgrade && apk add --no-cache bash
+
       # run build
       - run: .circleci/build.sh
 
