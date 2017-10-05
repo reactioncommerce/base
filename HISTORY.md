@@ -1,3 +1,9 @@
+## v2.2.0
+
+- Meteor 1.5.2.2
+- Mongo 3.4.9
+
+
 ## v2.1.3
 
 - remove deprecated docker login `-e` flag
