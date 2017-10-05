@@ -1,15 +1,13 @@
 FROM debian:jessie
 MAINTAINER Reaction Commerce <admin@reactioncommerce.com>
 
-ENV DEV_BUILD true
-
 RUN groupadd -r node && useradd -m -g node node
 
-ENV METEOR_VERSION 1.5.1
+ENV METEOR_VERSION 1.5.2.2
 ENV GOSU_VERSION 1.10
 
 # Optionally Install MongoDB
-ENV MONGO_VERSION 3.4.7
+ENV MONGO_VERSION 3.4.9
 ENV MONGO_MAJOR 3.4
 
 # Optionally Install PhantomJS
