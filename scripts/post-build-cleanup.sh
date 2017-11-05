@@ -26,7 +26,6 @@ rm -rf /tmp/*
 # npm cleanup
 npm uninstall -g reaction-cli
 rm /usr/local/bin/reaction
-npm cache clean
 rm /opt/nodejs/bin/npm
 rm /usr/local/bin/npm
 rm -rf /opt/nodejs/lib/node_modules/npm/
