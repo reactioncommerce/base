@@ -1,6 +1,6 @@
 ## v3.0.0
 
-- Meteor 1.6
+- Meteor 1.6.0.1
 - Node 8.9.0
 - Mongo 3.4.10
 
