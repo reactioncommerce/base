@@ -3,7 +3,7 @@ MAINTAINER Reaction Commerce <admin@reactioncommerce.com>
 
 RUN groupadd -r node && useradd -m -g node node
 
-ENV METEOR_VERSION 1.6.1
+ENV METEOR_VERSION 1.6.0.1
 ENV GOSU_VERSION 1.10
 
 # Optionally Install MongoDB
