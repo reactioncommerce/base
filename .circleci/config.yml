@@ -1,8 +1,3 @@
-defaults: &defaults
-  - setup_remote_docker
-  - run: apk add --update bash git openssh
-  - checkout
-
 version: 2
 
 jobs:
@@ -11,7 +6,9 @@ jobs:
       - image: docker:latest
 
     steps:
-      <<: *defaults
+      - setup_remote_docker
+      - run: apk add --update bash git openssh
+      - checkout
 
       - run: .circleci/build.sh
 
@@ -25,12 +22,13 @@ jobs:
       - image: docker:latest
 
     steps:
-      <<: *defaults
+      - setup_remote_docker
+      - run: apk add --update bash git openssh
+      - checkout
 
       - restore_cache:
           key: docker-cache-{{ .Revision }}
 
-      # run tests
       - run: .circleci/test.sh
 
   deploy:
@@ -38,7 +36,9 @@ jobs:
       - image: docker:latest
 
     steps:
-      <<: *defaults
+      - setup_remote_docker
+      - run: apk add --update bash git openssh
+      - checkout
 
       - restore_cache:
           key: docker-cache-{{ .Revision }}
@@ -55,7 +55,7 @@ workflows:
               only: /.*/
       - test:
           requires:
-            - build        
+            - build
           filters:
             tags:
               only: /.*/
