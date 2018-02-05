@@ -5,33 +5,21 @@
 #
 # $DOCKER_USER  - Docker Hub username
 # $DOCKER_PASS  - Docker Hub password
-# $DOCKER_EMAIL - Docker Hub email
 
-# Master branch versioned deployment (only runs when a version number git tag exists - syntax: "v1.2.3")
-if [[ "$CIRCLE_BRANCH" == "master" ]]; then
-  # check if we're on a version tagged commit
-  VERSION=$(git describe --tags | grep "^v[0-9]\+\.[0-9]\+\.[0-9]\+$")
+set -e
 
-  if [[ "$VERSION" ]]; then
-    set -e
+IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
 
-    IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
+# load cache from build job
+docker load < ~/docker-cache/image.tar
 
-    # create a versioned tags
-    docker tag $IMAGE_NAME:devbuild $IMAGE_NAME:$VERSION-devbuild
-    docker tag $IMAGE_NAME:latest $IMAGE_NAME:$VERSION
+# create a final release images/tags
+docker tag reactioncommerce/base:latest $IMAGE_NAME:$CIRCLE_TAG
+docker tag reactioncommerce/base:latest $IMAGE_NAME:latest
 
-    # login to Docker Hub
-    docker login -u $DOCKER_USER -p $DOCKER_PASS
+# login to Docker Hub
+docker login -u $DOCKER_USER --password-stdin $DOCKER_PASS
 
-    # push the builds
-    docker push $IMAGE_NAME:$VERSION-devbuild
-    docker push $IMAGE_NAME:devbuild
-    docker push $IMAGE_NAME:$VERSION
-    docker push $IMAGE_NAME:latest
-  else
-    echo "On a deployment branch, but no version tag was found. Skipping image deployment."
-  fi
-else
-  echo "Not in a deployment branch. Skipping image deployment."
-fi
+# push the builds
+docker push $IMAGE_NAME:$CIRCLE_TAG
+docker push $IMAGE_NAME:latest
