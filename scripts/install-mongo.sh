@@ -2,8 +2,6 @@
 
 set -e
 
-MONGO_PACKAGE=mongodb-org
-
 if [ "$INSTALL_MONGO" = true ]; then
   printf "\n[-] Installing MongoDB ${MONGO_VERSION}...\n\n"
 
@@ -14,11 +12,11 @@ if [ "$INSTALL_MONGO" = true ]; then
 	apt-get update
 
   apt-get install -y \
-    ${MONGO_PACKAGE}=$MONGO_VERSION \
-    ${MONGO_PACKAGE}-server=$MONGO_VERSION \
-    ${MONGO_PACKAGE}-shell=$MONGO_VERSION \
-    ${MONGO_PACKAGE}-mongos=$MONGO_VERSION \
-    ${MONGO_PACKAGE}-tools=$MONGO_VERSION
+    mongodb-org=$MONGO_VERSION \
+    mongodb-org-server=$MONGO_VERSION \
+    mongodb-org-shell=$MONGO_VERSION \
+    mongodb-org-mongos=$MONGO_VERSION \
+    mongodb-org-tools=$MONGO_VERSION
 
   mkdir -p /data/{db,configdb}
   chown -R mongodb:mongodb /data/{db,configdb}

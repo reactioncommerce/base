@@ -6,7 +6,7 @@ set -e
 if [[ "${MONGO_URL}" == *"127.0.0.1"* ]]; then
   if hash mongod 2>/dev/null; then
     printf "\n[-] External MONGO_URL not found. Starting local MongoDB...\n\n"
-    exec gosu mongodb mongod --storageEngine=wiredTiger > /dev/null 2>&1 &
+    exec gosu mongodb mongod > /dev/null 2>&1 &
   else
     echo "ERROR: Mongo not installed inside the container."
     echo "Rebuild with INSTALL_MONGO=true or supply a MONGO_URL environment variable."

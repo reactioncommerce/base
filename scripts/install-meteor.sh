@@ -2,17 +2,15 @@
 
 set -e
 
-# if the Meteor version hasn't been explicitely set, read if from the app
-if [ -z "$METEOR_VERSION" ]; then
-  # read in the release version in the app
-  METEOR_VERSION=$(head $APP_SOURCE_DIR/.meteor/release | cut -d "@" -f 2)
-fi
-
 # download installer script
 curl https://install.meteor.com -o /tmp/install_meteor.sh
 
 # set the release version in the install script
-sed -i.bak "s/RELEASE=.*/RELEASE=\"$METEOR_VERSION\"/g" /tmp/install_meteor.sh
+# if the Meteor version hasn't been explicitely set, just install the latest
+if [[ "$METEOR_VERSION" ]]; then
+  # read in the release version in the app
+  sed -i.bak "s/RELEASE=.*/RELEASE=\"$METEOR_VERSION\"/g" /tmp/install_meteor.sh
+fi
 
 # replace tar command with bsdtar in the install script (bsdtar -xf "$TARBALL_FILE" -C "$INSTALL_TMPDIR")
 # https://github.com/jshimko/meteor-launchpad/issues/39
