@@ -19,6 +19,7 @@ if [ "$INSTALL_PHANTOMJS" = true ]; then
   ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/bin/phantomjs
 
   apt-get -y purge wget
+  rm -rf /var/lib/apt/lists/*
 
   printf "\n[-] Successfully installed PhantomJS $(phantomjs -v)\n\n"
 fi
