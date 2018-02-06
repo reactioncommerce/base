@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:8.9.4
 MAINTAINER Reaction Commerce <architecture@reactioncommerce.com>
 
 # Meteor
