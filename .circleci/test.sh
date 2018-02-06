@@ -16,7 +16,7 @@ cd /tmp/reaction
 # build new image
 docker build \
   --build-arg TOOL_NODE_FLAGS="--max-old-space-size=4096" \
-  -t reactioncommerce/reaction:latest .
+  -t reaction-test .
 
 # run the container and wait for it to boot
 docker-compose -f .circleci/docker-compose.yml up -d

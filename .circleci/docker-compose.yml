@@ -1,7 +1,7 @@
 
 reaction:
   container_name: reaction
-  image: reactioncommerce/reaction:latest
+  image: reaction-test
   links:
     - mongo
   ports:
