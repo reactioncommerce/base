@@ -48,6 +48,3 @@ ONBUILD ENV TOOL_NODE_FLAGS $TOOL_NODE_FLAGS
 # install optional dependencies
 ONBUILD RUN $BUILD_SCRIPTS_DIR/install-phantom.sh
 ONBUILD RUN $BUILD_SCRIPTS_DIR/install-mongo.sh
-
-# optionally install custom apt dependencies
-ONBUILD RUN if [ "$APT_GET_INSTALL" ]; then apt-get update && apt-get install -y $APT_GET_INSTALL; fi
