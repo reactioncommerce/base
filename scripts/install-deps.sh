@@ -12,8 +12,6 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
   curl \
   git \
-  graphicsmagick \
-  graphicsmagick-imagemagick-compat \
   python \
   wget
 
