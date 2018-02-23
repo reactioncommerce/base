@@ -19,7 +19,6 @@ RUN apt-get update \
   bsdtar \
   bzip2 \
   ca-certificates \
-  curl \
   git \
   python \
   wget \
@@ -34,8 +33,7 @@ RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
  && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
  && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
  && chmod +x /usr/local/bin/gosu \
- && gosu nobody true \
- && apt-get purge -y --auto-remove wget
+ && gosu nobody true
 
 RUN npm i -g reaction-cli
 
@@ -44,7 +42,7 @@ RUN npm i -g reaction-cli
 # replaces tar command with bsdtar in the install script (bsdtar -xf "$TARBALL_FILE" -C "$INSTALL_TMPDIR")
 # https://github.com/jshimko/meteor-launchpad/issues/39
 ################################
-RUN curl https://install.meteor.com -o /tmp/install_meteor.sh \
+RUN wget -O /tmp/install_meteor.sh https://install.meteor.com \
  && sed -i.bak "s/RELEASE=.*/RELEASE=\"$METEOR_VERSION\"/g" /tmp/install_meteor.sh \
  && sed -i.bak "s/tar -xzf.*/bsdtar -xf \"\$TARBALL_FILE\" -C \"\$INSTALL_TMPDIR\"/g" /tmp/install_meteor.sh \
  && printf "\n[-] Installing Meteor $METEOR_VERSION...\n\n" \
