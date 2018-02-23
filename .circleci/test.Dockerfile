@@ -4,7 +4,19 @@ FROM reactioncommerce/base:latest as builder
 COPY . $APP_SOURCE_DIR
 
 # build the app with Meteor
-RUN $BUILD_SCRIPTS_DIR/build-meteor.sh
+RUN export METEOR_ALLOW_SUPERUSER=true \
+ && cd $APP_SOURCE_DIR \
+ && printf "\n[-] Running Reaction plugin loader...\n\n" \
+ && reaction plugins load \
+ && printf "\n[-] Running npm install in app directory...\n\n" \
+ && meteor npm install \
+ && printf "\n[-] Building Meteor application...\n\n" \
+ && mkdir -p $APP_BUNDLE_DIR \
+ && meteor build --server-only --architecture os.linux.x86_64 --directory $APP_BUNDLE_DIR \
+ && printf "\n[-] Running npm install in the server bundle...\n\n" \
+ && cd $APP_BUNDLE_DIR/bundle/programs/server/ \
+ && meteor npm install --production \
+ && mv $BUILD_SCRIPTS_DIR/entrypoint.sh $APP_BUNDLE_DIR/bundle/entrypoint.sh
 
 # create the final production image
 FROM node:8.9.4-slim
@@ -13,7 +25,6 @@ WORKDIR /app
 
 # grab the dependencies and built app from the previous builder image
 COPY --from=builder /usr/local/bin/gosu /usr/local/bin/gosu
-COPY --from=builder /opt/reaction/scripts /tmp/scripts
 COPY --from=builder /opt/reaction/dist/bundle .
 
 # define all optional build arg's
@@ -23,15 +34,6 @@ ARG INSTALL_MONGO
 ENV INSTALL_MONGO $INSTALL_MONGO
 ENV MONGO_VERSION 3.4.11
 ENV MONGO_MAJOR 3.4
-
-# PhantomJS
-ARG INSTALL_PHANTOMJS
-ENV INSTALL_PHANTOMJS $INSTALL_PHANTOMJS
-ENV PHANTOM_VERSION 2.1.1
-
-# install optional dependencies if an above --build-arg is supplied
-RUN /tmp/scripts/install-phantom.sh
-RUN /tmp/scripts/install-mongo.sh
 
 # make sure "node" user can run the app
 RUN chown -R node:node /app
