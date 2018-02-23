@@ -1,10 +1,11 @@
 FROM reactioncommerce/base:latest as builder
+MAINTAINER Reaction Commerce <architecture@reactioncommerce.com>
 
 # copy the app into the build container
 COPY . $APP_SOURCE_DIR
 
 # build the app with Meteor
-RUN export METEOR_ALLOW_SUPERUSER=true \
+RUN export "METEOR_ALLOW_SUPERUSER=true" \
  && cd $APP_SOURCE_DIR \
  && printf "\n[-] Running Reaction plugin loader...\n\n" \
  && reaction plugins load \
