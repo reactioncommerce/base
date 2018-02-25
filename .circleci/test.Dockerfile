@@ -1,5 +1,5 @@
 FROM reactioncommerce/base:latest as builder
-MAINTAINER Reaction Commerce <architecture@reactioncommerce.com>
+LABEL maintainer="Reaction Commerce <architecture@reactioncommerce.com>"
 
 # copy the app into the build container
 COPY . $APP_SOURCE_DIR

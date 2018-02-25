@@ -1,5 +1,5 @@
 FROM node:8.9.4
-MAINTAINER Reaction Commerce <architecture@reactioncommerce.com>
+LABEL maintainer="Reaction Commerce <architecture@reactioncommerce.com>"
 
 ARG METEOR_VERSION=1.6.0.1
 
