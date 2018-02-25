@@ -11,7 +11,7 @@ ENV APP_BUNDLE_DIR /opt/reaction/dist
 ENV BUILD_SCRIPTS_DIR /opt/reaction/scripts
 
 COPY scripts $BUILD_SCRIPTS_DIR
-RUN chmod -R 750 $BUILD_SCRIPTS_DIR
+RUN chmod -R 750 "$BUILD_SCRIPTS_DIR"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
