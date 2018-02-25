@@ -28,7 +28,8 @@ RUN apt-get update \
 RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
  && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
  && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
- && export GNUPGHOME="$(mktemp -d)" \
+ && GNUPGHOME="$(mktemp -d)" \
+ && export GNUPGHOME \
  && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
  && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
  && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
@@ -45,7 +46,7 @@ RUN npm i -g reaction-cli
 RUN wget -O /tmp/install_meteor.sh https://install.meteor.com \
  && sed -i.bak "s/RELEASE=.*/RELEASE=\"$METEOR_VERSION\"/g" /tmp/install_meteor.sh \
  && sed -i.bak "s/tar -xzf.*/bsdtar -xf \"\$TARBALL_FILE\" -C \"\$INSTALL_TMPDIR\"/g" /tmp/install_meteor.sh \
- && printf "\n[-] Installing Meteor $METEOR_VERSION...\n\n" \
+ && printf "\\n[-] Installing Meteor %s...\\n" "$METEOR_VERSION" \
  && sh /tmp/install_meteor.sh \
  && rm /tmp/install_meteor.sh
 
