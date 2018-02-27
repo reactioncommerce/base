@@ -26,7 +26,6 @@ FROM node:8.9.4-slim
 WORKDIR /app
 
 # grab the dependencies and built app from the previous builder image
-COPY --from=builder /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=builder /opt/reaction/dist/bundle .
 
 # define all optional build arg's
