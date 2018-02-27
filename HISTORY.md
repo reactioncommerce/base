@@ -3,7 +3,8 @@
 - multi-stage build support <https://docs.docker.com/develop/develop-images/multistage-build/>
 - switch to `node:8.9.4` base image for builder (same Debian base as before, but with Node 8 preinstalled)
 - Meteor 1.6.0.1 preinstalled
-- Mongo 3.4.11 (still optional at Reaction build time)
+- Removed mongo installation step (use mongo as a service in docker-compose, see "Run" section of README)
+- Removed PhantomJS installation step
 - rewrite most of the CircleCI jobs, add complete tests with a full Reaction build
 
 ## v3.0.0
@@ -78,7 +79,7 @@ docker build \
 
 - allow setting `TOOL_NODE_FLAGS` for the Meteor at image build time
 
-Example usage:  
+Example usage:
 
 ```
 docker build --build-arg TOOL_NODE_FLAGS="--max-old-space-size=2048" -t reactioncommerce/reaction:latest .
