@@ -23,7 +23,7 @@ Use [docker-compose](https://docs.docker.com/compose/) to run the app. A demo [d
 Run this command to start the app:
 
 ```sh
-docker-compose up -f docker-compose-demo.yml
+docker-compose -f docker-compose-demo.yml up
 ```
 
 ### Build Options
