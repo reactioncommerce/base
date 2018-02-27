@@ -1,7 +1,7 @@
 FROM node:8.9.4
 LABEL maintainer="Reaction Commerce <architecture@reactioncommerce.com>"
 
-ARG METEOR_VERSION=1.6.0.1
+ARG METEOR_VERSION=1.6.1
 
 ENV METEOR_VERSION $METEOR_VERSION
 ENV GOSU_VERSION 1.10
@@ -9,6 +9,7 @@ ENV REACTION_DOCKER_BUILD true
 ENV APP_SOURCE_DIR /opt/reaction/src
 ENV APP_BUNDLE_DIR /opt/reaction/dist
 ENV BUILD_SCRIPTS_DIR /opt/reaction/scripts
+ENV PATH $PATH:/home/node/.meteor
 
 COPY scripts $BUILD_SCRIPTS_DIR
 RUN chmod -R 750 "$BUILD_SCRIPTS_DIR"
@@ -37,6 +38,8 @@ RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
  && gosu nobody true
 
 RUN npm i -g reaction-cli
+
+USER node
 
 ################################
 # install-meteor
