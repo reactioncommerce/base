@@ -20,6 +20,11 @@ RUN apt-get update \
   wget \
  && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p $APP_SOURCE_DIR \
+ && mkdir -p $APP_BUNDLE_DIR \
+ && chown -R node $APP_SOURCE_DIR \
+ && chown -R node $APP_SOURCE_DIR
+
 RUN npm i -g reaction-cli
 
 USER node
@@ -36,8 +41,7 @@ RUN wget -O /tmp/install_meteor.sh https://install.meteor.com \
  && sh /tmp/install_meteor.sh \
  && rm /tmp/install_meteor.sh
 
-
-# Define --build-arg options for final image
+WORKDIR $APP_SOURCE_DIR
 
 # Node flags for the Meteor build tool
 ONBUILD ARG TOOL_NODE_FLAGS
