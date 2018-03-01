@@ -18,7 +18,7 @@ docker tag reactioncommerce/base:latest $IMAGE_NAME:$CIRCLE_TAG
 docker tag reactioncommerce/base:latest $IMAGE_NAME:latest
 
 # login to Docker Hub
-docker login -u $DOCKER_USER --password-stdin $DOCKER_PASS
+docker login -u $DOCKER_USER -p $DOCKER_PASS
 
 # push the builds
 docker push $IMAGE_NAME:$CIRCLE_TAG
