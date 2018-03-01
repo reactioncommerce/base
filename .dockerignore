@@ -1,7 +1,6 @@
 .git
 build.sh
-ci
-circle.yml
+.circleci
 Dockerfile
 *.dockerfile
 *.md

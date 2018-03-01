@@ -2,8 +2,9 @@
 
 set -e
 
-IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
-
 # build the latest
-docker build -f dev.dockerfile -t $IMAGE_NAME:devbuild .
-docker build -t $IMAGE_NAME:latest .
+docker build -t reactioncommerce/base:latest .
+
+# save a tar of the image for CI caching
+mkdir -p ~/docker-cache
+docker save -o ~/docker-cache/image.tar reactioncommerce/base:latest
