@@ -32,20 +32,7 @@ jobs:
           name: Test installed dependencies
           command: |
             docker load < ~/docker-cache/image.tar
-            docker run --rm reactioncommerce/base:latest sh -c \
-              "METEOR_VERSION_ENV=$(exec env | grep METEOR_VERSION | tr 'METEOR_VERSION=' ' ' | xargs);
-              APP_SOURCE_DIR=$(exec env | grep APP_SOURCE_DIR | tr 'APP_SOURCE_DIR=\' ' ' | xargs);
-              APP_BUNDLE_DIR=$(exec env | grep APP_BUNDLE_DIR | tr 'APP_BUNDLE_DIR=' ' ' | xargs);
-              REACTION_CLI_VERSION=$(exec reaction -v | grep Reaction | tr 'Reaction CLI:' ' ' | xargs);
-              INSTALLED_METEOR_VERSION=$(exec meteor --version | tr 'Meteor' ' ' | xargs);
-              echo \"$APP_SOURCE_DIR\";
-              APP_SOURCE_DIR_OWNER=$(exec ls -ld $APP_SOURCE_DIR | awk '{print $3}');
-              APP_BUNDLE_DIR_OWNER=$(exec ls -ld $APP_BUNDLE_DIR | awk '{print $3}');
-
-              if [ $INSTALLED_METEOR_VERSION == $METEOR_VERSION_ENV ];
-              then echo \"Meteor version confirmed\";
-              else echo \"Meteor version not found\";
-              fi"
+            docker run -v `pwd`:`pwd` -w `pwd` --rm reactioncommerce/base:latest bash test-script.sh
 
   deploy:
     docker:
