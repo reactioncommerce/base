@@ -29,9 +29,9 @@ jobs:
           key: docker-cache-{{ .Revision }}
 
       - run:
-        name: Load Docker Image
-        command: |
-          docker load < ~/docker-cache/image.tar
+          name: Load Docker Image
+          command: |
+            docker load < ~/docker-cache/image.tar
 
       - run:
           name: Test installed dependencies
