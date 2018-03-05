@@ -32,7 +32,7 @@ jobs:
           name: Test installed dependencies
           command: |
             docker load < ~/docker-cache/image.tar
-            docker run -v `pwd`:`pwd` -w `pwd` --rm reactioncommerce/base:latest bash test-script.sh
+            docker run -v `pwd`:`pwd` -w `pwd` --rm reactioncommerce/base:latest bash .circleci/test-script.sh
 
   deploy:
     docker:
