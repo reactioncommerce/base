@@ -28,7 +28,7 @@ jobs:
       - restore_cache:
           key: docker-cache-{{ .Revision }}
 
-      -run:
+      - run:
         name: Load Docker Image
         command: |
           docker load < ~/docker-cache/image.tar
