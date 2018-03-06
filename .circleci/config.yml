@@ -1,52 +1,75 @@
+# This CircleCI configuration uses workflows to fan-out to multiple jobs.  The
+# workflow is Dockerized. The first job builds the Docker image which is used
+# in all future steps.
+#
+#  Assumes that the Docker image is published to Docker Hub.
+
+
 version: 2
+
+# The following stanza defines a map named defaults with a variable that may be
+# inserted using the YAML merge (<<: *) key later in the file to save some
+# typing. See http://yaml.org/type/merge.html for details.
+defaults: &defaults
+  environment:
+    - DOCKER_REPOSITORY: "reactioncommerce/base"
+    - DOCKER_NAMESPACE: "reactioncommerce"
+    - DOCKER_NAME: "base"
+  working_directory: ~/reaction-app
+  docker:
+    - image: circleci/node:8-stretch
 
 jobs:
   docker-build:
-    docker:
-      - image: docker:latest
-
+    <<: *defaults
     steps:
-      - setup_remote_docker
-      - run: apk add --update bash git openssh
       - checkout
-
+      - setup_remote_docker
+      - run:
+          name: Discover Docker Tags
+          command: |
+            mkdir -p docker-cache
+            .circleci/bin/docker-tags "$CIRCLE_SHA1" "$CIRCLE_BRANCH" \
+              > docker-cache/docker-tags.txt
+            cat docker-cache/docker-tags.txt
       - run:
           name: Docker Build
           command: |
-            docker build -t "reactioncommerce/base:$CIRCLE_SHA1" .
+            docker build \
+              --build-arg "BUILD_COMPARE_URL=$CIRCLE_COMPARE_URL" \
+              --build-arg "BUILD_DATE=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" \
+              --build-arg "BUILD_ENV=test" \
+              --build-arg "BUILD_NUMBER=$CIRCLE_BUILD_NUM" \
+              --build-arg "BUILD_PLATFORM=circleci" \
+              --build-arg "BUILD_PLATFORM_PROJECT_REPONAME=$CIRCLE_PROJECT_REPONAME" \
+              --build-arg "BUILD_PLATFORM_PROJECT_USERNAME=$CIRCLE_PROJECT_USERNAME" \
+              --build-arg "BUILD_PULL_REQUESTS=$CI_PULL_REQUESTS" \
+              --build-arg "BUILD_TRIGGERED_BY_TAG=$CIRCLE_TAG" \
+              --build-arg "BUILD_URL=$CIRCLE_BUILD_URL" \
+              --build-arg "CIRCLE_WORKFLOW_ID=$CIRCLE_WORKFLOW_ID" \
+              --build-arg "CIRCLE_WORKFLOW_JOB_ID=$CIRCLE_WORKFLOW_JOB_ID" \
+              --build-arg "CIRCLE_WORKFLOW_UPSTREAM_JOB_IDS=$CIRCLE_WORKFLOW_UPSTREAM_JOB_IDS" \
+              --build-arg "CIRCLE_WORKSPACE_ID=$CIRCLE_WORKSPACE_ID" \
+              --build-arg "GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" \
+              --build-arg "GIT_SHA1=$CIRCLE_SHA1" \
+              --build-arg "LICENSE=GPL-3.0-only" \
+              --build-arg "VCS_REF=$CIRCLE_SHA1" \
+              --build-arg "VENDOR=Reaction Commerce" \
+              -t "$DOCKER_REPOSITORY:$CIRCLE_SHA1" .
             mkdir -p docker-cache
-            docker save -o docker-cache/docker-image.tar "reactioncommerce/base:$CIRCLE_SHA1"
+            docker save \
+              -o docker-cache/docker-image.tar \
+              "$DOCKER_REPOSITORY:$CIRCLE_SHA1"
       - persist_to_workspace:
           root: docker-cache
           paths:
             - docker-image.tar
-
-  test:
-    docker:
-      - image: docker:latest
-
-    steps:
-      - setup_remote_docker
-      - checkout
-      - attach_workspace:
-          at: docker-cache
-      - run:
-          name: Load Docker Image
-          command: |
-            docker load < docker-cache/docker-image.tar
-      - run:
-          name: Test installed dependencies
-          command: |
-            docker run --rm "reactioncommerce/base:$CIRCLE_SHA1" bash test-script.sh
+            - docker-tags.txt
 
   docker-push:
-    docker:
-      - image: docker:latest
-
+    <<: *defaults
     steps:
       - setup_remote_docker
-      - run: apk add --update bash git openssh
-      - checkout
       - attach_workspace:
           at: docker-cache
       - run:
@@ -56,36 +79,49 @@ jobs:
       - run:
           name: Tag Docker Image
           command: |
-            docker tag "reactioncommerce/base:$CIRCLE_SHA1" "reactioncommerce/base:latest"
+            cat docker-cache/docker-tags.txt \
+              | xargs -t -I % \
+                docker tag \
+                  "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
+                  "$DOCKER_REPOSITORY:%"
       - run:
           name: Docker Push
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            docker push "reactioncommerce/base:$CIRCLE_SHA1"
-            docker push "reactioncommerce/base:latest"
+            docker push "$DOCKER_REPOSITORY:$CIRCLE_SHA1"
+            cat docker-cache/docker-tags.txt \
+              | xargs -t -I % \
+                docker push "$DOCKER_REPOSITORY:%"
+
+  test:
+    <<: *defaults
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: docker-cache
+      - run:
+          name: Load Docker Image
+          command: |
+            docker load < docker-cache/docker-image.tar
+      - run:
+          name: Test installed dependencies
+          command: |
+            docker run --rm \
+              "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
+              bash test-script.sh
 
 workflows:
   version: 2
-  build_and_deploy:
+  build_and_test:
     jobs:
       - docker-build:
-          filters:
-            tags:
-              only: /.*/
-      - test:
-          requires:
-            - docker-build
-          filters:
-            tags:
-              only: /.*/
+          context: reaction-build-read
       - docker-push:
+          context: reaction-publish-docker
           requires:
             - docker-build
             - test
-          filters:
-            # only run deploy on tags with format: v1.2.3
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]/
-            # don't deploy on plain branch pushes
-            branches:
-              ignore: /.*/
+      - test:
+          context: reaction-validation
+          requires:
+            - docker-build
