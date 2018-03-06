@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  build:
+  docker-build:
     docker:
       - image: docker:latest
 
@@ -39,7 +39,7 @@ jobs:
           command: |
             docker run --rm reactioncommerce/base:latest bash test-script.sh
 
-  deploy:
+  docker-push:
     docker:
       - image: docker:latest
 
@@ -49,25 +49,42 @@ jobs:
       - checkout
       - attach_workspace:
           at: docker-cache
-      - run: .circleci/deploy.sh
+      - run:
+          name: Load Docker Image
+          command: |
+            docker load < docker-cache/docker-image.tar
+      - run:
+          name: Tag Docker Image
+          command: |
+            IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
+            docker tag reactioncommerce/base:latest $IMAGE_NAME:$CIRCLE_TAG
+            docker tag reactioncommerce/base:latest $IMAGE_NAME:latest
+      - run:
+          name: Docker Push
+          command:
+            IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            docker push $IMAGE_NAME:$CIRCLE_TAG
+            docker push $IMAGE_NAME:latest
+
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build:
+      - docker-build:
           filters:
             tags:
               only: /.*/
       - test:
           requires:
-            - build
+            - docker-build
           filters:
             tags:
               only: /.*/
-      - deploy:
+      - docker-push:
           requires:
-            - build
+            - docker-build
             - test
           filters:
             # only run deploy on tags with format: v1.2.3
