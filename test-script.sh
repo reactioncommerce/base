@@ -20,9 +20,9 @@ fi
 echo "#### Starting check for APP_SOURCE_DIR owner"
 APP_SOURCE_DIR_OWNER=$(ls -ld "$APP_SOURCE_DIR" | awk '{print $3}');
 if [ "$APP_SOURCE_DIR_OWNER" == "node" ]; then
-  echo "Success: APP_SOURCE_DIR is owned by correct user `node`";
+  echo "Success: APP_SOURCE_DIR is owned by node user";
 else
-  echo "Error: APP_SOURCE_DIR not owned by user node";
+  echo "Error: APP_SOURCE_DIR not owned by node user";
   exit 1;
 fi
 
@@ -37,9 +37,9 @@ fi
 echo "#### Starting check for APP_BUNDLE_DIR owner"
 APP_BUNDLE_DIR_OWNER=$(ls -ld "$APP_BUNDLE_DIR" | awk '{print $3}');
 if [ "$APP_BUNDLE_DIR_OWNER" == "node" ]; then
-  echo "Success: APP_BUNDLE_DIR owned correct user `node`";
+  echo "Success: APP_BUNDLE_DIR owned by node user";
 else
-  echo "Error: APP_BUNDLE_DIR not owned by user node";
+  echo "Error: APP_BUNDLE_DIR NOT owned by node user";
   exit 1;
 fi
 
@@ -51,5 +51,3 @@ else
   echo "Error: REACTION CLI not installed";
   exit 1;
 fi
-
-exit 0;
