@@ -10,7 +10,12 @@ jobs:
       - run: apk add --update bash git openssh
       - checkout
 
-      - run: .circleci/build.sh
+      - run:
+          name: Docker Build
+          command: |
+            docker build -t reactioncommerce/base:latest .
+            mkdir -p ~/docker-cache
+            docker save -o ~/docker-cache/image.tar reactioncommerce/base:latest
 
       - save_cache:
           key: docker-cache-{{ .Revision }}
