@@ -14,13 +14,12 @@ jobs:
           name: Docker Build
           command: |
             docker build -t reactioncommerce/base:latest .
-            mkdir -p ~/docker-cache
-            docker save -o ~/docker-cache/image.tar reactioncommerce/base:latest
-
-      - save_cache:
-          key: docker-cache-{{ .Revision }}
+            mkdir -p docker-cache
+            docker save -o docker-cache/docker-image.tar reactioncommerce/base:latest
+      - persist_to_workspace:
+          root: docker-cache
           paths:
-            - ~/docker-cache
+            - docker-image.tar
 
   test:
     docker:
@@ -29,15 +28,12 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-
-      - restore_cache:
-          key: docker-cache-{{ .Revision }}
-
+      - attach_workspace:
+          at: docker-cache
       - run:
           name: Load Docker Image
           command: |
-            docker load < ~/docker-cache/image.tar
-
+            docker load < docker-cache/docker-image.tar
       - run:
           name: Test installed dependencies
           command: |
@@ -51,10 +47,8 @@ jobs:
       - setup_remote_docker
       - run: apk add --update bash git openssh
       - checkout
-
-      - restore_cache:
-          key: docker-cache-{{ .Revision }}
-
+      - attach_workspace:
+          at: docker-cache
       - run: .circleci/deploy.sh
 
 workflows:

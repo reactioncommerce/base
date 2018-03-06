@@ -11,7 +11,7 @@ set -e
 IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
 
 # load cache from build job
-docker load < ~/docker-cache/image.tar
+docker load < docker-cache/docker-image.tar
 
 # create final release images/tags
 docker tag reactioncommerce/base:latest $IMAGE_NAME:$CIRCLE_TAG
