@@ -42,7 +42,7 @@ RUN wget -O /tmp/install_meteor.sh https://install.meteor.com \
  && rm /tmp/install_meteor.sh
 
 WORKDIR $APP_SOURCE_DIR
-
+COPY test-script.sh .
 # Node flags for the Meteor build tool
 ONBUILD ARG TOOL_NODE_FLAGS
 ONBUILD ENV TOOL_NODE_FLAGS $TOOL_NODE_FLAGS

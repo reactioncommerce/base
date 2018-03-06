@@ -23,14 +23,20 @@ jobs:
 
     steps:
       - setup_remote_docker
-      - run: apk add --update bash git openssh python py-pip
-      - run: pip install docker-compose
       - checkout
 
       - restore_cache:
           key: docker-cache-{{ .Revision }}
 
-      - run: .circleci/test.sh
+      - run:
+          name: Load Docker Image
+          command: |
+            docker load < ~/docker-cache/image.tar
+
+      - run:
+          name: Test installed dependencies
+          command: |
+            docker run --rm reactioncommerce/base:latest bash test-script.sh
 
   deploy:
     docker:
