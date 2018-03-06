@@ -13,9 +13,9 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            docker build -t reactioncommerce/base:latest .
+            docker build -t "reactioncommerce/base:$CIRCLE_SHA1" .
             mkdir -p docker-cache
-            docker save -o docker-cache/docker-image.tar reactioncommerce/base:latest
+            docker save -o docker-cache/docker-image.tar "reactioncommerce/base:$CIRCLE_SHA1"
       - persist_to_workspace:
           root: docker-cache
           paths:
@@ -37,7 +37,7 @@ jobs:
       - run:
           name: Test installed dependencies
           command: |
-            docker run --rm reactioncommerce/base:latest bash test-script.sh
+            docker run --rm "reactioncommerce/base:$CIRCLE_SHA1" bash test-script.sh
 
   docker-push:
     docker:
@@ -56,17 +56,13 @@ jobs:
       - run:
           name: Tag Docker Image
           command: |
-            IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
-            docker tag reactioncommerce/base:latest $IMAGE_NAME:$CIRCLE_TAG
-            docker tag reactioncommerce/base:latest $IMAGE_NAME:latest
+            docker tag "reactioncommerce/base:$CIRCLE_SHA1" "reactioncommerce/base:latest"
       - run:
           name: Docker Push
-          command:
-            IMAGE_NAME=${DOCKER_IMAGE_NAME:-"reactioncommerce/base"}
+          command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            docker push $IMAGE_NAME:$CIRCLE_TAG
-            docker push $IMAGE_NAME:latest
-
+            docker push "reactioncommerce/base:$CIRCLE_SHA1"
+            docker push "reactioncommerce/base:latest"
 
 workflows:
   version: 2
