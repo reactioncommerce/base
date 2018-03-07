@@ -110,10 +110,26 @@ jobs:
               "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
               bash test-script.sh
 
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: lint
+          command: |
+            docker run \
+              -v `pwd`:`pwd` \
+              -w `pwd` \
+              -i \
+              hadolint/hadolint < Dockerfile
+
+
 workflows:
   version: 2
   build_and_test:
     jobs:
+      - lint
       - docker-build:
           context: reaction-build-read
       - docker-push:
