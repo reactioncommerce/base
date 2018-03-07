@@ -69,10 +69,10 @@ RUN apt-get update \
   wget \
  && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p $APP_SOURCE_DIR \
- && mkdir -p $APP_BUNDLE_DIR \
- && chown -R node $APP_SOURCE_DIR \
- && chown -R node $APP_BUNDLE_DIR
+RUN mkdir -p "$APP_SOURCE_DIR" \
+ && mkdir -p "$APP_BUNDLE_DIR" \
+ && chown -R node "$APP_SOURCE_DIR" \
+ && chown -R node "$APP_BUNDLE_DIR"
 
 RUN npm i -g reaction-cli
 
