@@ -116,7 +116,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: lint
+          name: Dockerfile Lint
           command: |
             # creating dummy container which will hold a volume with hadolint config
             docker create -v /lintyaml --name config alpine:latest /bin/true
