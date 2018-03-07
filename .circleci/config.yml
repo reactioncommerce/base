@@ -118,11 +118,12 @@ jobs:
       - run:
           name: lint
           command: |
-            docker run \
-              -v `pwd`:`pwd` \
-              -w `pwd` \
-              -i \
-              hadolint/hadolint < Dockerfile
+            # creating dummy container which will hold a volume with hadolint config
+            docker create -v /lintyaml --name config alpine:latest /bin/true
+            docker cp hadolint.yaml config:/lintyaml
+
+            # starting application container using this volume
+            docker run -i -e "XDG_CONFIG_HOME=/lintyaml" --volumes-from config hadolint/hadolint < Dockerfile
 
 
 workflows:
