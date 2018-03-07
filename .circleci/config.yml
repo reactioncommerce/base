@@ -110,7 +110,7 @@ jobs:
               "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
               bash test-script.sh
 
-  lint:
+  dockerfile-lint:
     <<: *defaults
     steps:
       - checkout
@@ -130,7 +130,7 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - lint
+      - dockerfile-lint
       - docker-build:
           context: reaction-build-read
       - docker-push:
