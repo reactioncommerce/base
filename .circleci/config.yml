@@ -79,15 +79,11 @@ jobs:
       - run:
           name: Tag Docker Image
           command: |
-            if [ -z "$CIRCLE_PR_USERNAME" ]; then \
-              cat docker-cache/docker-tags.txt \
-                | xargs -t -I % \
-                  docker tag \
-                    "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
-                    "$DOCKER_REPOSITORY:%"
-            else
-              echo "No tagging for forks"
-            fi
+            cat docker-cache/docker-tags.txt \
+              | xargs -t -I % \
+                docker tag \
+                  "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
+                  "$DOCKER_REPOSITORY:%"
       - run:
           name: Docker Push
           command: |
