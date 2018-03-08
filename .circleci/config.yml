@@ -79,19 +79,27 @@ jobs:
       - run:
           name: Tag Docker Image
           command: |
-            cat docker-cache/docker-tags.txt \
-              | xargs -t -I % \
-                docker tag \
-                  "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
-                  "$DOCKER_REPOSITORY:%"
+            if [ -z "$CIRCLE_PR_USERNAME" ]; then \
+              cat docker-cache/docker-tags.txt \
+                | xargs -t -I % \
+                  docker tag \
+                    "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
+                    "$DOCKER_REPOSITORY:%"
+            else
+              echo "No tagging for forks"
+            fi
       - run:
           name: Docker Push
           command: |
-            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            docker push "$DOCKER_REPOSITORY:$CIRCLE_SHA1"
-            cat docker-cache/docker-tags.txt \
-              | xargs -t -I % \
-                docker push "$DOCKER_REPOSITORY:%"
+            if [ -z "$CIRCLE_PR_USERNAME" ]; then \
+              docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+              docker push "$DOCKER_REPOSITORY:$CIRCLE_SHA1"
+              cat docker-cache/docker-tags.txt \
+                | xargs -t -I % \
+                  docker push "$DOCKER_REPOSITORY:%"
+            else
+              echo "No deploy for forks"
+            fi
 
   test:
     <<: *defaults
