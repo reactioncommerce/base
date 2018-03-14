@@ -1,3 +1,13 @@
+## v4.0.2
+
+- Added test script to presence of Meteor and other dependencies in base image
+- Added Dockerfile (Hadolint) linting job to CircleCI
+- Added condition to not run docker-push for PRs from forks
+- Moved CI commands from scripts into circle config
+- Added Docker image labels to annotate built images with CI information
+- Updated job to publish all built Docker artifacts [git sha1, git branch, git tags (if applicable) and `:latest` if it is the highest tagged version on master.
+
+
 ## v4.0.0
 
 - multi-stage build support <https://docs.docker.com/develop/develop-images/multistage-build/>
