@@ -29,7 +29,7 @@ jobs:
           name: Discover Docker Tags
           command: |
             mkdir -p docker-cache
-            .circleci/bin/docker-tags "$CIRCLE_SHA1" "$CIRCLE_BRANCH" \
+            .circleci/bin/docker-tags "$CIRCLE_SHA1" "$CIRCLE_BRANCH" | sed 's/\//-/g' \
               > docker-cache/docker-tags.txt
             cat docker-cache/docker-tags.txt
       - run:
