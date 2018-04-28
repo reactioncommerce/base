@@ -1,6 +1,6 @@
-FROM node:8.9.4
+FROM node:4.8.4
 
-ARG METEOR_VERSION=1.6.1
+ARG METEOR_VERSION=1.5.2.2
 ARG NAME=base
 ARG DESCRIPTION="Base Docker image for Reaction."
 ARG URL=https://github.com/reactioncommerce/base
