@@ -1,3 +1,7 @@
+## v4.1.0
+
+- Update Meteor version from v1.6.1 to v1.7.0.1
+
 ## v4.0.2
 
 - Added test script to presence of Meteor and other dependencies in base image
