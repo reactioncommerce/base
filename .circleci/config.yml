@@ -138,6 +138,7 @@ workflows:
           context: reaction-publish-docker
           requires:
             - docker-build
+            - test
       - test:
           context: reaction-validation
           requires:
