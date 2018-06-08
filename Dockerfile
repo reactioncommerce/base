@@ -1,6 +1,5 @@
-FROM node:8.9.4
+FROM node:8.11.2
 
-ARG METEOR_VERSION=1.6.1
 ARG NAME=base
 ARG DESCRIPTION="Base Docker image for Reaction."
 ARG URL=https://github.com/reactioncommerce/base
@@ -52,7 +51,7 @@ LABEL maintainer="Reaction Commerce <engineering@reactioncommerce.com>" \
       com.reactioncommerce.docker.git.sha1=$GIT_SHA1 \
       com.reactioncommerce.docker.license=$LICENSE
 
-ENV METEOR_VERSION $METEOR_VERSION
+ENV METEOR_VERSION 1.7.0.1
 ENV REACTION_DOCKER_BUILD true
 ENV APP_SOURCE_DIR /opt/reaction/src
 ENV APP_BUNDLE_DIR /opt/reaction/dist
