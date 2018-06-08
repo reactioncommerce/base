@@ -23,11 +23,18 @@ Add the following to a `Dockerfile` in the root of your Reaction Commerce projec
 FROM reactioncommerce/base:v1.7.0.1-meteor
 ```
 
-Then you can build the image with:
+Then you can build the image with this command (after setting your version):
 
 ```sh
-docker build -t reactioncommerce/reaction:latest .
+VERSION=
+docker build \
+  --build-arg TOOL_NODE_FLAGS="--max-old-space-size=4096" \
+  -t reactioncommerce/reaction:${VERSION} .
 ```
+
+Note: Depending on the type of OS running the build, `--max-old-space-size` may require a different value (e.g 2048). See explanation of the Meteor issue [here](https://github.com/meteor/meteor/issues/8513).
+
+See Reaction's sample Dockerfile using the base image [here](https://github.com/reactioncommerce/reaction/blob/master/Dockerfile).
 
 ### Run
 
