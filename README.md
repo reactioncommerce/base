@@ -39,18 +39,6 @@ Run this command to start the app:
 docker-compose -f docker-compose-demo.yml up
 ```
 
-### Build Options
-
-This base image supports setting custom build options that let you modify what gets installed. You can use [Docker build args](https://docs.docker.com/engine/reference/builder/#arg) to accomplish this.
-
-To change the version of Meteor that gets installed, you can specify a version as below:
-
-```sh
-docker build \
-  --build-arg METEOR_VERSION=1.4.2 \
-  -t myorg/myapp:latest .
-```
-
 ## License
 
 [MIT License](./LICENSE.md)
