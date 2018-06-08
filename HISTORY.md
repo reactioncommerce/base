@@ -2,6 +2,7 @@
 
 - Update Meteor version from v1.6.1 to v1.7.0.1
 - Update node version from 8.9.4 to 8.11.2
+- Change release versioning: henceforth, releases in this repo will be tied to the corresponding Meteor release.
 
 ## v4.0.2
 
