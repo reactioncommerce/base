@@ -15,12 +15,12 @@ Current version builds:
 
 See [Docker Hub](https://hub.docker.com/r/reactioncommerce/base/tags/) for full list.
 
-### Build
+### Usage
 
 Add the following to a `Dockerfile` in the root of your Reaction Commerce project:
 
 ```Dockerfile
-FROM reactioncommerce/base:latest
+FROM reactioncommerce/base:v1.7.0.1-meteor
 ```
 
 Then you can build the image with:
