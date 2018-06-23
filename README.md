@@ -4,7 +4,7 @@
 
 With the release of Meteor 1.7, we changed the versioning of this repo and it's Docker builds to align with Meteor's release. Henceforth, releases in this repo will be tied to the corresponding Meteor release.
 
-Current version builds:
+Sample version builds:
 
 | reactioncommerce/base version       | Meteor version  |
 | :----------------------------------:|:---------------:|
