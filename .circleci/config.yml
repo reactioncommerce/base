@@ -106,10 +106,10 @@ workflows:
           requires:
             - docker-build
             - test
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
       - test:
           context: reaction-validation
           requires:
