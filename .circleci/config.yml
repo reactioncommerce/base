@@ -22,75 +22,37 @@ defaults: &defaults
 jobs:
   docker-build:
     <<: *defaults
+    parallelism: 2
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Discover Docker Tags
-          command: |
-            mkdir -p docker-cache
-            .circleci/bin/docker-tags "$CIRCLE_SHA1" "$CIRCLE_BRANCH" | sed 's/\//-/g' \
-              > docker-cache/docker-tags.txt
-            cat docker-cache/docker-tags.txt
-      - run:
           name: Docker Build
-          command: |
-            docker build \
-              --build-arg "BUILD_COMPARE_URL=$CIRCLE_COMPARE_URL" \
-              --build-arg "BUILD_DATE=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" \
-              --build-arg "BUILD_ENV=test" \
-              --build-arg "BUILD_NUMBER=$CIRCLE_BUILD_NUM" \
-              --build-arg "BUILD_PLATFORM=circleci" \
-              --build-arg "BUILD_PLATFORM_PROJECT_REPONAME=$CIRCLE_PROJECT_REPONAME" \
-              --build-arg "BUILD_PLATFORM_PROJECT_USERNAME=$CIRCLE_PROJECT_USERNAME" \
-              --build-arg "BUILD_PULL_REQUESTS=$CI_PULL_REQUESTS" \
-              --build-arg "BUILD_TRIGGERED_BY_TAG=$CIRCLE_TAG" \
-              --build-arg "BUILD_URL=$CIRCLE_BUILD_URL" \
-              --build-arg "CIRCLE_WORKFLOW_ID=$CIRCLE_WORKFLOW_ID" \
-              --build-arg "CIRCLE_WORKFLOW_JOB_ID=$CIRCLE_WORKFLOW_JOB_ID" \
-              --build-arg "CIRCLE_WORKFLOW_UPSTREAM_JOB_IDS=$CIRCLE_WORKFLOW_UPSTREAM_JOB_IDS" \
-              --build-arg "CIRCLE_WORKSPACE_ID=$CIRCLE_WORKSPACE_ID" \
-              --build-arg "GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" \
-              --build-arg "GIT_SHA1=$CIRCLE_SHA1" \
-              --build-arg "LICENSE=GPL-3.0-only" \
-              --build-arg "VCS_REF=$CIRCLE_SHA1" \
-              --build-arg "VENDOR=Reaction Commerce" \
-              -t "$DOCKER_REPOSITORY:$CIRCLE_SHA1" .
-            mkdir -p docker-cache
-            docker save \
-              -o docker-cache/docker-image.tar \
-              "$DOCKER_REPOSITORY:$CIRCLE_SHA1"
+          command: .circleci/bin/build $(circleci tests glob versions/**/options | circleci tests split)
       - persist_to_workspace:
           root: docker-cache
           paths:
-            - docker-image.tar
-            - docker-tags.txt
+            - images/*
 
   docker-push:
     <<: *defaults
     steps:
+      - checkout
       - setup_remote_docker
       - attach_workspace:
           at: docker-cache
       - run:
           name: Load Docker Image
           command: |
-            docker load < docker-cache/docker-image.tar
-      - run:
-          name: Tag Docker Image
-          command: |
-            cat docker-cache/docker-tags.txt \
+            .circleci/bin/docker-tags \
               | xargs -t -I % \
-                docker tag \
-                  "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
-                  "$DOCKER_REPOSITORY:%"
+                docker load --input docker-cache/images/%
       - run:
           name: Docker Push
           command: |
             if [ -z "$CIRCLE_PR_USERNAME" ]; then \
               docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-              docker push "$DOCKER_REPOSITORY:$CIRCLE_SHA1"
-              cat docker-cache/docker-tags.txt \
+              .circleci/bin/docker-tags \
                 | xargs -t -I % \
                   docker push "$DOCKER_REPOSITORY:%"
             else
@@ -100,18 +62,23 @@ jobs:
   test:
     <<: *defaults
     steps:
+      - checkout
       - setup_remote_docker
       - attach_workspace:
           at: docker-cache
       - run:
           name: Load Docker Image
           command: |
-            docker load < docker-cache/docker-image.tar
+            .circleci/bin/docker-tags \
+              | xargs -t -I % \
+                docker load --input docker-cache/images/%
       - run:
           name: Test installed dependencies
           command: |
+            .circleci/bin/docker-tags \
+                | xargs -t -I % \
             docker run --rm \
-              "$DOCKER_REPOSITORY:$CIRCLE_SHA1" \
+              "$DOCKER_REPOSITORY:%" \
               bash test-script.sh
 
   dockerfile-lint:
@@ -124,7 +91,7 @@ jobs:
       - run:
           name: Dockerfile Lint
           command: |
-            hadolint Dockerfile
+            echo versions/**/Dockerfile | xargs -t -n 1 hadolint
 
 
 workflows:
@@ -139,6 +106,10 @@ workflows:
           requires:
             - docker-build
             - test
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
       - test:
           context: reaction-validation
           requires:
