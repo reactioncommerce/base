@@ -32,7 +32,6 @@ jobs:
       - persist_to_workspace:
           root: docker-cache
           paths:
-            - docker-tags.txt
             - images/*
 
   docker-push:
