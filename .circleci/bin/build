@@ -10,7 +10,7 @@ for file in $options_files; do
     mkdir -p docker-cache/images
 
     docker build \
-      --build-arg METEOR_VERSION $METEOR_VERSION \
+      --build-arg "METEOR_VERSION=$METEOR_VERSION" \
       --build-arg "BUILD_COMPARE_URL=$CIRCLE_COMPARE_URL" \
       --build-arg "BUILD_DATE=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" \
       --build-arg "BUILD_ENV=test" \
