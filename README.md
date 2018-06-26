@@ -23,7 +23,7 @@ We do not commit to creating a new release of this repo with every Meteor versio
 - Set the TAGS ENV in the `options` file to your release TAG
 - Set the Meteor version ENV in the `options` file
 - If this new version is the highest tag, search for and remove `latest` from the current options file it's located, and add it to the new options file
-- Add any extra test step(s) needed in the `test-sscript.sh`
+- Add any extra test step(s) needed in the `test-script.sh`
 - Update `History.md` with the new release
 - Open a PR to master with the changes.
 
