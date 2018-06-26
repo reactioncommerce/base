@@ -1,0 +1,2 @@
+export TAGS=(v1.7.0.1-meteor)
+export METEOR_VERSION=1.7.0.1
