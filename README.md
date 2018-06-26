@@ -15,6 +15,18 @@ Sample version builds:
 
 See [Docker Hub](https://hub.docker.com/r/reactioncommerce/base/tags/) for full list.
 
+We do not commit to creating a new release of this repo with every Meteor version release. We intend to support versions used by Reaction. Pull requests are welcome for versions not included.
+
+### Adding a new version (Creating a new release)
+- Create a directory for the new version (following the existing name convention)
+- Update the new Dockerfile as needed.
+- Set the TAGS ENV in the `options` file to your release TAG
+- Set the Meteor version ENV in the `options` file
+- If this new version is the highest tag, search for and remove `latest` from the current options file it's located, and add it to the new options file
+- Add any extra test step(s) needed in the `test-script.sh`
+- Update `History.md` with the new release
+- Open a PR to master with the changes.
+
 ### Usage
 
 Add the following to a `Dockerfile` in the root of your Reaction Commerce project:
