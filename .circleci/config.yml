@@ -22,7 +22,7 @@ defaults: &defaults
 jobs:
   docker-build:
     <<: *defaults
-    parallelism: 2
+    parallelism: 3
     steps:
       - checkout
       - setup_remote_docker
