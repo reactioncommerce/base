@@ -1,3 +1,8 @@
+## v1.8-meteor
+
+- Update Meteor version to 1.8
+- Update node version to 8.11.4
+
 ## v1.7.0.3-meteor
 
 - Update Meteor version to v1.7.0.3
