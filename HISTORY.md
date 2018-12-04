@@ -1,3 +1,10 @@
+## v1.8-meteor-dev
+
+- This is a minor update on the v1.8 version. It contains small changes to the Dockerfile that eliminates a quite redundant build stage in the Reaction app's Dockerfile.
+- The changes are:
+  - Updating $PATH to include location of Meteor and node_modules binaries
+  - Add `mkdir` command to help volume mounting while developing
+
 ## v1.8-meteor
 
 - Update Meteor version to 1.8
