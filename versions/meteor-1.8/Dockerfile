@@ -67,8 +67,6 @@ RUN apt-get update \
   git \
   python \
   wget \
-  librdkafka-dev \
-  libsasl2-dev \
  && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p "$APP_SOURCE_DIR" \
