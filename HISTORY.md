@@ -1,6 +1,6 @@
 ## v1.8.0.2-meteor
 
-- Update Meteor version to 1.8.0.2
+- Add Meteor version to 1.8.0.2
 - Add sinek kafka lib binary dependencies
 
 ## v1.8-meteor
